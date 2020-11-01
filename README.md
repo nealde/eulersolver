@@ -67,7 +67,7 @@ from euler_solver import EulerSolver
 
 y_0 = np.array([0.05, 0.35])
 backward_solver = EulerSolver(style='backward', abs_tol=1e-6)
-y, t = backward_solver.solve(dae_function, y_0, 60, number_odes=1)
+y, t = backward_solver.solve(dae_function, y_0, 5000, number_odes=1)
 ```
 
 Due to the stiffness of the equations, it may be necessary to tighten the `abs_tol` to a relatively small number to reduce the size of the first timestep, which allows the equations

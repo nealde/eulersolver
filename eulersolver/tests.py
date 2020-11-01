@@ -130,6 +130,6 @@ def test_backward_reinitialization():
 def test_backward_a_b_c_reaction_and_dae():
     y_0 = np.array([0.05, 0.35])
     backward_solver = EulerSolver(style='backward', abs_tol=1e-6)
-    y, t = backward_solver.solve(dae_function, y_0, 60, number_odes=1)
+    y, t = backward_solver.solve(dae_function, y_0, 5000, number_odes=1)
     # just solving this passes the test
 
