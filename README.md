@@ -126,3 +126,11 @@ plt.plot(t2, y2[2,:], label = 'C - backward')
 plt.legend()
 ```
 
+## Run the Tests
+
+The tests can be run using:
+
+```bash
+pipenv install
+pipenv run nosetests eulersolver/tests.py
+```
