@@ -63,7 +63,7 @@ class BackwardSolver:
 
         Returns
         -------
-
+        np.array containing the derivative at the next time step, per Euler Backward.
         """
         self._function = func
         self._n = len(y_current)
@@ -76,6 +76,19 @@ class BackwardSolver:
         return self.newton_rhapson(y_current)
 
     def _initialize_in_place_arrays(self, number_odes: int):
+        """
+        Due to the mass matrix solution style, we need to know how many of the equations are ODEs. This builds
+            parameters that are used to make those calculations in-place, increasing performance.
+        Parameters
+        ----------
+        number_odes: int
+            The number of ordinary differential equations in the system, given that all of the ODEs are at the beginning
+            of the system of equations.
+
+        Returns
+        -------
+        None
+        """
         self._number_odes = self._n
         if number_odes:
             self._number_odes = number_odes
@@ -86,6 +99,17 @@ class BackwardSolver:
         self._dfdy = np.zeros((self._n, self._n))
 
     def _calculate_numerical_jacobian(self, y_current: np.array) -> np.array:
+        """
+        Given a function, calculate the numerical jacobian by permuting each input variable a small amount.
+        Parameters
+        ----------
+        y_current: np.array
+            The current state of the system of equations
+
+        Returns
+        -------
+        (n x n) np.array containing the jacobian
+        """
         for i in range(self._n):
             self._di[i] = 1.0
             delta = max(1e-12, 1e-5 * y_current[i])
@@ -96,7 +120,17 @@ class BackwardSolver:
             self._di[i] = 0.0
 
     def newton_rhapson(self, y_current: np.array):
-        """The mass-matrix form of the Newton Rhapson method, which allows for the solving of DAEs"""
+        """
+        The mass-matrix form of the Newton Rhapson method, which allows for the solving of DAEs
+        Parameters
+        ----------
+        y_current: np.array
+            The current state of the system of equations
+
+        Returns
+        -------
+        np.array containing the derivative of the system of equations at the next timestep.
+        """
         y_old = np.copy(y_current)
         y_new = np.copy(y_current)
 

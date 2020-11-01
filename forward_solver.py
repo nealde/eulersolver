@@ -15,6 +15,26 @@ class ForwardSolver:
 
     @staticmethod
     def single_step(func: callable, y_current: np.array, step: float, parameters: np.array = None, number_odes: int = None) -> np.array:
+        """
+        Takes a single step according to Euler Forwards.
+        Parameters
+        ----------
+        func: callable
+            The function that represents the system of equations.
+        y_current: np.array
+            The current state of the equations
+        step: float
+            The step size to take
+        parameters: np.array
+            An array of parameters to pass to the function, if applicable.
+        number_odes: int
+            The number of ODEs in the system, if the system is a set of DAEs. It is not used by this function, but
+                needs to conform to the interface set by Euler Backward
+
+        Returns
+        -------
+        np.array containing the derivative at the next time step, per Euler Forward.
+        """
         if parameters is not None:
             return y_current + step * func(y_current, parameters)
         return y_current + step * func(y_current)
